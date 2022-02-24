@@ -14,10 +14,10 @@ entry_plain = tk.Entry(top_block, font=14)
 entry_plain.config(highlightbackground="grey")
 entry_plain.pack(side=tk.TOP, pady=(5, 10))
 
-options = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26]
-variable = tk.StringVar(top_block)
-variable.set(options[0])
-key = options[0]
+dropbox_options = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26]
+dropbox_menu = tk.StringVar(top_block)
+dropbox_menu.set(dropbox_options[0])
+key = dropbox_options[0]
 
 def update_key(selection):
     global key
@@ -26,7 +26,7 @@ def update_key(selection):
 # Key
 label_key = tk.Label(top_block, text="Key:", font=14)
 label_key.pack(side=tk.TOP)
-entry_key = tk.OptionMenu(top_block, variable, *options, command=update_key)
+entry_key = tk.OptionMenu(top_block, dropbox_menu, *dropbox_options, command=update_key)
 entry_key.pack(side=tk.TOP, pady=(5, 10))
 top_block.pack(side=tk.TOP, padx=(15, 15), pady=(10, 10))
 
@@ -53,19 +53,18 @@ entry_caesar.config(highlightbackground="grey", state="disabled")
 entry_caesar.pack(side=tk.TOP, pady=(5, 10))
 bottom_block.pack(side=tk.TOP, padx=(15, 15), pady=(10, 10))
 
-L2I = dict(zip("ABCDEFGHIJKLMNOPQRSTUVWXYZ",range(26)))
-I2L = dict(zip(range(26),"ABCDEFGHIJKLMNOPQRSTUVWXYZ"))
-
 def caesar_encryption():
     global key
     plaintext = entry_plain.get()
     caesartext = ""
 
-    for c in plaintext.upper():
-        if c.isalpha():
-            caesartext += I2L[ (L2I[c] + key)%26 ]
-        else:
-            caesartext += c
+    for i in range(len(plaintext)):
+        special = plaintext[i]
+        new_special = special.lower()
+        if new_special == " ":
+            caesartext += ' '
+        elif special.isalpha():
+            caesartext += chr((ord(new_special) + key - 97) % 26 + 97)
 
     entry_caesar.config(state=tk.NORMAL)
     entry_caesar.delete(0, tk.END)
@@ -76,12 +75,14 @@ def caesar_decryption():
     global key
     plaintext = entry_plain.get()
     caesartext = ""
-    
-    for c in plaintext.upper():
-        if c.isalpha():
-            caesartext += I2L[ (L2I[c] - key)%26 ]
-        else:
-            caesartext += c
+
+    for i in range(len(plaintext)):
+        special = plaintext[i]
+        new_special = special.lower()
+        if new_special == " ":
+            caesartext += ' '
+        elif special.isalpha():
+            caesartext += chr((ord(new_special) - key - 97) % 26 + 97)
 
     entry_caesar.config(state=tk.NORMAL)
     entry_caesar.delete(0, tk.END)
