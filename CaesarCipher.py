@@ -33,11 +33,11 @@ entry_caesar.pack(side=tk.TOP)
 
 ### ENCRYPTION TYPE ###
 # Simple Caesar encryption button
-button_connect = tk.Button(encryption_type_block, text="Simple", font=14, command=lambda: show_simple_options())
-button_connect.pack(side=tk.LEFT)
+button_simple = tk.Button(encryption_type_block, text="Simple", font=14, command=lambda: show_simple_options())
+button_simple.pack(side=tk.LEFT)
 # Complex Caesar encryption button
-button_connect = tk.Button(encryption_type_block, text="Complex", font=14, command=lambda: show_complex_options())
-button_connect.pack(side=tk.RIGHT)
+button_complex = tk.Button(encryption_type_block, text="Complex", font=14, command=lambda: show_complex_options())
+button_complex.pack(side=tk.RIGHT)
 
 ### SIMPLE ENCRYPTION OPTIONS ###
 # Dropdown options
@@ -57,11 +57,11 @@ label_drop_key.pack(side=tk.TOP)
 drop_key = tk.OptionMenu(simple_options_block, dropbox_menu, *dropbox_options, command=update_key)
 drop_key.pack(side=tk.TOP)
 # Caesar encryption button
-button_connect = tk.Button(simple_options_block, text="Encrypt!", font=14, command=lambda: simple_caesar_encryption())
-button_connect.pack(side=tk.LEFT)
+button_simple_encrypt = tk.Button(simple_options_block, text="Encrypt!", font=14, command=lambda: simple_caesar_encryption())
+button_simple_encrypt.pack(side=tk.LEFT)
 # Caesar decryption button
-button_connect = tk.Button(simple_options_block, text="Decrypt!", font=14, command=lambda: simple_caesar_decryption())
-button_connect.pack(side=tk.RIGHT)
+button_simple_decrypt = tk.Button(simple_options_block, text="Decrypt!", font=14, command=lambda: simple_caesar_decryption())
+button_simple_decrypt.pack(side=tk.RIGHT)
 
 ### COMPLEX ENCRYPTION OPTIONS ###
 # Key dropdown
@@ -70,16 +70,32 @@ label_entry_key.pack(side=tk.TOP)
 entry_key = tk.Entry(complex_options_block, font=14)
 entry_key.pack(side=tk.TOP)
 # Caesar encryption button
-button_connect = tk.Button(complex_options_block, text="Encrypt!", font=14, command=lambda: complex_caesar_encryption())
-button_connect.pack(side=tk.LEFT)
+button_complex_encrypt = tk.Button(complex_options_block, text="Encrypt!", font=14, command=lambda: complex_caesar_encryption())
+button_complex_encrypt.pack(side=tk.LEFT)
 # Caesar decryption button
-button_connect = tk.Button(complex_options_block, text="Decrypt!", font=14, command=lambda: complex_caesar_decryption())
-button_connect.pack(side=tk.RIGHT)
+button_complex_decrypt = tk.Button(complex_options_block, text="Decrypt!", font=14, command=lambda: complex_caesar_decryption())
+button_complex_decrypt.pack(side=tk.RIGHT)
 
 ### DISPLAYING BLOCKS ###
 plaintext_block.pack(side=tk.TOP, padx=(15, 15), pady=(10, 10))
 caesartext_block.pack(side=tk.TOP, padx=(15, 15), pady=(10, 10))
 encryption_type_block.pack(side=tk.TOP, padx=(15, 15), pady=(10, 10))
+
+def show_simple_options():
+    global simple_key
+    dropbox_menu.set(dropbox_options[0])
+    simple_key = dropbox_options[0]
+
+    button_simple.config(state="disabled")
+    button_complex.config(state="normal")
+    complex_options_block.forget()
+    simple_options_block.pack(side=tk.BOTTOM, padx=(15, 15), pady=(10, 15))
+
+def show_complex_options():
+    button_complex.config(state="disabled")
+    button_simple.config(state="normal")
+    simple_options_block.forget()
+    complex_options_block.pack(side=tk.BOTTOM, padx=(15, 15), pady=(10, 15))
 
 # Simple caesar encryption
 def simple_caesar_encryption():
@@ -198,14 +214,6 @@ def complex_caesar_decryption():
     entry_caesar.delete(0, tk.END)
     entry_caesar.insert(tk.END, plaintext)
     entry_caesar.config(state=tk.DISABLED)
-
-def show_simple_options():
-    complex_options_block.forget()
-    simple_options_block.pack(side=tk.BOTTOM, padx=(15, 15), pady=(10, 15))
-
-def show_complex_options():
-    simple_options_block.forget()
-    complex_options_block.pack(side=tk.BOTTOM, padx=(15, 15), pady=(10, 15))
 
 # Loop GUI window
 window.mainloop()
