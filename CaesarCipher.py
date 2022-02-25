@@ -1,6 +1,6 @@
 import tkinter as tk
 
-# GUI setup
+### GUI SETUP ###
 window = tk.Tk()
 window.title("Caesar Cipher")
 
@@ -81,37 +81,49 @@ plaintext_block.pack(side=tk.TOP, padx=(15, 15), pady=(10, 10))
 caesartext_block.pack(side=tk.TOP, padx=(15, 15), pady=(10, 10))
 encryption_type_block.pack(side=tk.TOP, padx=(15, 15), pady=(10, 10))
 
+### METHODS ###
+# Show simple encryptoin options
 def show_simple_options():
+    # Reset key dropdown menu
     global simple_key
     dropbox_menu.set(dropbox_options[0])
     simple_key = dropbox_options[0]
 
+    # Disable simple button, and enable complex button
     button_simple.config(state="disabled")
     button_complex.config(state="normal")
+    # Hide complex options, show simple options
     complex_options_block.forget()
     simple_options_block.pack(side=tk.BOTTOM, padx=(15, 15), pady=(10, 15))
 
+# Show complext encryption options
 def show_complex_options():
+    # Disable complex button, and enable simple button
     button_complex.config(state="disabled")
     button_simple.config(state="normal")
+    # Hide simple options, show complex options
     simple_options_block.forget()
     complex_options_block.pack(side=tk.BOTTOM, padx=(15, 15), pady=(10, 15))
 
 # Simple caesar encryption
 def simple_caesar_encryption():
+    # Get key and plaintext
     global simple_key
     plaintext = entry_plain.get()
     caesartext = ""
 
+    # Loop through plain text, and go forwards base on key
     for i in range(len(plaintext)):
         special = plaintext[i]
         new_special = special.lower()
 
+        # If space detected, add space, else encrypt
         if new_special == " ":
             caesartext += ' '
         elif special.isalpha():
             caesartext += chr((ord(new_special) + simple_key - 97) % 26 + 97)
 
+    # Display encrypted text
     entry_caesar.config(state=tk.NORMAL)
     entry_caesar.delete(0, tk.END)
     entry_caesar.insert(tk.END, caesartext)
@@ -119,50 +131,61 @@ def simple_caesar_encryption():
 
 # Simple caesar decryption
 def simple_caesar_decryption():
+    # Get key and encrypted text
     global simple_key
     plaintext = entry_plain.get()
     caesartext = ""
 
+    # Loop through encrypted text, and go backwards base on key
     for i in range(len(plaintext)):
         special = plaintext[i]
         new_special = special.lower()
 
+        # If space detected, add space, else decrypt
         if new_special == " ":
             caesartext += ' '
         elif special.isalpha():
             caesartext += chr((ord(new_special) - simple_key - 97) % 26 + 97)
 
+    # Display plain text
     entry_caesar.config(state=tk.NORMAL)
     entry_caesar.delete(0, tk.END)
     entry_caesar.insert(tk.END, caesartext)
     entry_caesar.config(state=tk.DISABLED)
 
+# Convert key into numbers
 def letters_to_numbers(complex_key):
+    # List will hold each letter value
     convert = []
 
+    # Turn letters into numbers, and add to list
     for letter in complex_key:
         convert.append(ord(letter) - 96)
     
+    # Return list
     return convert
 
 # Complex caesar encryption
 def complex_caesar_encryption():
+    # Get plaintext and key
     plaintext = entry_plain.get()
     complex_key = entry_key.get()
     caesartext = ""
     key = 0
-
+    # Remove spaces and lowercase everything in key
     complex_key = complex_key.replace(" ", "")
     complex_key = complex_key.lower()
-
+    # Convert letters to number, get length of list
     key_list = letters_to_numbers(complex_key)
     key_length = len(key_list)
     key_postion = 0
 
+    # Loop through plain text, and go forwards base on key
     for i in range(len(plaintext)):
         special = plaintext[i]
         new_special = special.lower()
 
+        # Loop numbers in key, if smaller than plain text
         if key_postion < key_length:
             key = key_list[key_postion]
             key_postion += 1
@@ -170,11 +193,13 @@ def complex_caesar_encryption():
             key_postion = 0
             key = key_list[key_postion]
 
+        # If space detected, add space, else encrypt
         if new_special == " ":
             caesartext += ' '
         elif special.isalpha():
             caesartext += chr((ord(new_special) + int(key) - 97) % 26 + 97)
 
+    # Display encrypted text
     entry_caesar.config(state=tk.NORMAL)
     entry_caesar.delete(0, tk.END)
     entry_caesar.insert(tk.END, caesartext)
@@ -182,22 +207,25 @@ def complex_caesar_encryption():
 
 # Complex caesar decryption
 def complex_caesar_decryption():
+    # Get encrypted text and key
     caesartext = entry_plain.get()
     complex_key = entry_key.get()
     plaintext = ""
     key = 0
-
+    # Remove spaces and lowercase everything in key
     complex_key = complex_key.replace(" ", "")
     complex_key = complex_key.lower()
-
+    # Convert letters to number, get length of list
     key_list = letters_to_numbers(complex_key)
     key_length = len(key_list)
     key_postion = 0
 
+    # Loop through encrypted text, and go backwards base on key
     for i in range(len(caesartext)):
         special = caesartext[i]
         new_special = special.lower()
 
+        # Loop numbers in key, if smaller than encrypted text
         if key_postion < key_length:
             key = key_list[key_postion]
             key_postion += 1
@@ -205,11 +233,13 @@ def complex_caesar_decryption():
             key_postion = 0
             key = key_list[key_postion]
 
+        # If space detected, add space, else decrypt
         if new_special == " ":
             plaintext += ' '
         elif special.isalpha():
             plaintext += chr((ord(new_special) - int(key) - 97) % 26 + 97)
-
+    
+    # Display plain text
     entry_caesar.config(state=tk.NORMAL)
     entry_caesar.delete(0, tk.END)
     entry_caesar.insert(tk.END, plaintext)
