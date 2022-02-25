@@ -1,4 +1,3 @@
-from posixpath import split
 import tkinter as tk
 
 # GUI setup
@@ -71,7 +70,7 @@ label_entry_key.pack(side=tk.TOP)
 entry_key = tk.Entry(complex_options_block, font=14)
 entry_key.pack(side=tk.TOP)
 # Caesar encryption button
-button_connect = tk.Button(complex_options_block, text="Encrypt!", font=14, command=lambda: complex_caesar_encryption)
+button_connect = tk.Button(complex_options_block, text="Encrypt!", font=14, command=lambda: complex_caesar_encryption())
 button_connect.pack(side=tk.LEFT)
 # Caesar decryption button
 button_connect = tk.Button(complex_options_block, text="Decrypt!", font=14, command=lambda: complex_caesar_decryption())
@@ -122,26 +121,43 @@ def simple_caesar_decryption():
     entry_caesar.insert(tk.END, caesartext)
     entry_caesar.config(state=tk.DISABLED)
 
-def split(key):
-    return list(key)
+def letters_to_numbers(complex_key):
+    convert = []
+
+    for letter in complex_key:
+        convert.append(ord(letter) - 96)
+    
+    return convert
 
 # Complex caesar encryption
 def complex_caesar_encryption():
     plaintext = entry_plain.get()
     complex_key = entry_key.get()
+    caesartext = ""
+    key = 0
+
     complex_key = complex_key.replace(" ", "")
     complex_key = complex_key.lower()
-    key = split(complex_key)
-    caesartext = ""
+
+    key_list = letters_to_numbers(complex_key)
+    key_length = len(key_list)
+    key_postion = 0
 
     for i in range(len(plaintext)):
         special = plaintext[i]
         new_special = special.lower()
 
+        if key_postion < key_length:
+            key = key_list[key_postion]
+            key_postion += 1
+        else:
+            key_postion = 0
+            key = key_list[key_postion]
+
         if new_special == " ":
             caesartext += ' '
         elif special.isalpha():
-            caesartext += chr((ord(new_special) + complex_key - 97) % 26 + 97)
+            caesartext += chr((ord(new_special) + int(key) - 97) % 26 + 97)
 
     entry_caesar.config(state=tk.NORMAL)
     entry_caesar.delete(0, tk.END)
@@ -153,15 +169,30 @@ def complex_caesar_decryption():
     caesartext = entry_plain.get()
     complex_key = entry_key.get()
     plaintext = ""
+    key = 0
+
+    complex_key = complex_key.replace(" ", "")
+    complex_key = complex_key.lower()
+
+    key_list = letters_to_numbers(complex_key)
+    key_length = len(key_list)
+    key_postion = 0
 
     for i in range(len(caesartext)):
         special = caesartext[i]
         new_special = special.lower()
-        
+
+        if key_postion < key_length:
+            key = key_list[key_postion]
+            key_postion += 1
+        else:
+            key_postion = 0
+            key = key_list[key_postion]
+
         if new_special == " ":
             plaintext += ' '
         elif special.isalpha():
-            plaintext += chr((ord(new_special) - complex_key - 97) % 26 + 97)
+            plaintext += chr((ord(new_special) - int(key) - 97) % 26 + 97)
 
     entry_caesar.config(state=tk.NORMAL)
     entry_caesar.delete(0, tk.END)
