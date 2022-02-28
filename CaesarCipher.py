@@ -143,14 +143,29 @@ def simple_caesar_encryption():
 
     # Loop through plain text, and go forwards base on key
     for i in range(len(plaintext)):
-        special = plaintext[i]
-        new_special = special.lower()
+        letter = plaintext[i]
+        letter = letter.lower()
 
         # If space detected, add space, else encrypt
-        if new_special == " ":
+        if letter == " ":
             ciphertext += ' '
-        elif special.isalpha():
-            ciphertext += chr((ord(new_special) + simple_key - 97) % 26 + 97)
+        elif letter == "$":
+            # Add special text to ciphertext
+            ciphertext += '/s'
+        elif letter == "@":
+            ciphertext += '/a'
+        elif letter == "%":
+            ciphertext += '/p'
+        elif letter == "!":
+            ciphertext += '/e'
+        elif letter == "*":
+            ciphertext += '/t'
+        elif letter == ".":
+            ciphertext += '/q'
+        elif letter == ",":
+            ciphertext += '/c'
+        elif letter.isalpha():
+            ciphertext += chr((ord(letter) + simple_key - 97) % 26 + 97)
 
     # Display encrypted text
     entry_caesar.config(state=tk.NORMAL)
@@ -165,17 +180,42 @@ def simple_caesar_decryption():
     global simple_key
     ciphertext = entry_plain.get()
     plaintext = ""
+    # If there isn't any symbols
+    skip = -1
 
     # Loop through encrypted text, and go backwards base on key
     for i in range(len(ciphertext)):
-        special = ciphertext[i]
-        new_special = special.lower()
+        letter = ciphertext[i]
+        letter = letter.lower()
 
-        # If space detected, add space, else decrypt
-        if new_special == " ":
+        if skip == i:
+            # If used as symbol, skip
+            continue
+        elif letter == " ":
+            # If space detected, add space, else decrypt
             plaintext += ' '
-        elif special.isalpha():
-            plaintext += chr((ord(new_special) - simple_key - 97) % 26 + 97)
+        elif letter == "/":
+            # Add symbol to plaintext, skip the next letter
+            skip = i + 1
+            letter = ciphertext[skip]
+            letter = letter.lower()
+
+            if letter == "s":
+                plaintext += '$'
+            elif letter == "a":
+                plaintext += '@'
+            elif letter == "p":
+                plaintext += '%'
+            elif letter == "e":
+                plaintext += '!'
+            elif letter == "t":
+                plaintext += '*'
+            elif letter == "q":
+                plaintext += '.'
+            elif letter == "c":
+                plaintext += ','
+        elif letter.isalpha():
+            plaintext += chr((ord(letter) - simple_key - 97) % 26 + 97)
 
     # Display plain text
     entry_caesar.config(state=tk.NORMAL)
