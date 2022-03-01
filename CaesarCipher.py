@@ -137,8 +137,8 @@ def show_complex_options():
 symbols_list = ["$", "@", "%", "!", "*", ".", ","]
 
 
+# Add special text to ciphertext
 def symbol_to_letters(letter):
-    # Add special text to ciphertext
     if letter == "$":
         return '/s'
     elif letter == "@":
@@ -155,8 +155,8 @@ def symbol_to_letters(letter):
         return '/c'
 
 
+# Add symbol to plaintext
 def letters_to_symbols(letter):
-    # Add symbol to plaintext
     if letter == "s":
         return '$'
     elif letter == "a":
@@ -173,8 +173,8 @@ def letters_to_symbols(letter):
         return ','
 
 
+# Display text
 def update_caesar_box(text):
-    # Display text
     entry_caesar.config(state=tk.NORMAL)
     entry_caesar.delete(0, tk.END)
     entry_caesar.insert(tk.END, text)
@@ -287,8 +287,8 @@ def complex_caesar_encryption():
                     key = key_list[key_position]
                     key_position += 1
                 else:
-                    key_position = 0
-                    key = key_list[key_position]
+                    key_position = 1
+                    key = key_list[0]
 
                 ciphertext += chr((ord(letter) + int(key) - 97) % 26 + 97)
 
@@ -339,8 +339,8 @@ def complex_caesar_decryption():
                     key = key_list[key_position]
                     key_position += 1
                 else:
-                    key_position = 0
-                    key = key_list[key_position]
+                    key_position = 1
+                    key = key_list[0]
 
                 plaintext += chr((ord(letter) - int(key) - 97) % 26 + 97)
 
