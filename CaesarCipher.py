@@ -133,6 +133,60 @@ def show_complex_options():
     complex_button_block.pack(side=tk.BOTTOM)
 
 
+# USED IN ENCRYPTION AND DECRYPTION METHODS #
+symbols_list = ["$", "@", "%", "!", "*", ".", ","]
+# letters_list = ["/s", "/a", "/p", "/e", "/t", "/q", "/c"]
+
+
+def symbol_to_letters(letter):
+    # Add special text to ciphertext
+    if letter == "$":
+        return '/s'
+    elif letter == "@":
+        return '/a'
+    elif letter == "%":
+        return '/p'
+    elif letter == "!":
+        return '/e'
+    elif letter == "*":
+        return '/t'
+    elif letter == ".":
+        return '/q'
+    elif letter == ",":
+        return '/c'
+
+
+def letters_to_symbols(letter):
+    # Add symbol to plaintext
+    if letter == "s":
+        return '$'
+    elif letter == "a":
+        return '@'
+    elif letter == "p":
+        return '%'
+    elif letter == "e":
+        return '!'
+    elif letter == "t":
+        return '*'
+    elif letter == "q":
+        return '.'
+    elif letter == "c":
+        return ','
+
+
+# Convert key into numbers
+def letters_to_numbers(complex_key):
+    # List will hold each letter value
+    convert = []
+
+    # Turn letters into numbers, and add to list
+    for letter in complex_key:
+        convert.append(ord(letter) - 96)
+
+    # Return list
+    return convert
+
+
 # SIMPLE ENCRYPTION METHODS #
 # Simple caesar encryption
 def simple_caesar_encryption():
@@ -149,21 +203,8 @@ def simple_caesar_encryption():
         # If space detected, add space, else encrypt
         if letter == " ":
             ciphertext += ' '
-        elif letter == "$":
-            # Add special text to ciphertext
-            ciphertext += '/s'
-        elif letter == "@":
-            ciphertext += '/a'
-        elif letter == "%":
-            ciphertext += '/p'
-        elif letter == "!":
-            ciphertext += '/e'
-        elif letter == "*":
-            ciphertext += '/t'
-        elif letter == ".":
-            ciphertext += '/q'
-        elif letter == ",":
-            ciphertext += '/c'
+        elif any(symbols in letter for symbols in symbols_list):
+            ciphertext += symbol_to_letters(letter)
         elif letter.isalpha():
             ciphertext += chr((ord(letter) + simple_key - 97) % 26 + 97)
 
@@ -199,21 +240,7 @@ def simple_caesar_decryption():
             skip = i + 1
             letter = ciphertext[skip]
             letter = letter.lower()
-
-            if letter == "s":
-                plaintext += '$'
-            elif letter == "a":
-                plaintext += '@'
-            elif letter == "p":
-                plaintext += '%'
-            elif letter == "e":
-                plaintext += '!'
-            elif letter == "t":
-                plaintext += '*'
-            elif letter == "q":
-                plaintext += '.'
-            elif letter == "c":
-                plaintext += ','
+            plaintext += letters_to_symbols(letter)
         elif letter.isalpha():
             plaintext += chr((ord(letter) - simple_key - 97) % 26 + 97)
 
@@ -225,19 +252,6 @@ def simple_caesar_decryption():
 
 
 # COMPLEX ENCRYPTION METHODS #
-# Convert key into numbers
-def letters_to_numbers(complex_key):
-    # List will hold each letter value
-    convert = []
-
-    # Turn letters into numbers, and add to list
-    for letter in complex_key:
-        convert.append(ord(letter) - 96)
-
-    # Return list
-    return convert
-
-
 # Complex caesar encryption
 def complex_caesar_encryption():
     # Get plaintext and key
@@ -264,21 +278,8 @@ def complex_caesar_encryption():
             if letter == " ":
                 # If space detected, add space, else encrypt
                 ciphertext += ' '
-            elif letter == "$":
-                # Add special text to ciphertext
-                ciphertext += '/s'
-            elif letter == "@":
-                ciphertext += '/a'
-            elif letter == "%":
-                ciphertext += '/p'
-            elif letter == "!":
-                ciphertext += '/e'
-            elif letter == "*":
-                ciphertext += '/t'
-            elif letter == ".":
-                ciphertext += '/q'
-            elif letter == ",":
-                ciphertext += '/c'
+            elif any(symbols in letter for symbols in symbols_list):
+                ciphertext += symbol_to_letters(letter)
             elif letter.isalpha():
                 # Loop numbers in key, if smaller than plain text
                 if key_position < key_length:
@@ -333,21 +334,7 @@ def complex_caesar_decryption():
                 skip = i + 1
                 letter = ciphertext[skip]
                 letter = letter.lower()
-
-                if letter == "s":
-                    plaintext += '$'
-                elif letter == "a":
-                    plaintext += '@'
-                elif letter == "p":
-                    plaintext += '%'
-                elif letter == "e":
-                    plaintext += '!'
-                elif letter == "t":
-                    plaintext += '*'
-                elif letter == "q":
-                    plaintext += '.'
-                elif letter == "c":
-                    plaintext += ','
+                plaintext += letters_to_symbols(letter)
             elif letter.isalpha():
                 # Loop numbers in key, if smaller than encrypted text
                 if key_position < key_length:
