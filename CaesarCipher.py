@@ -135,7 +135,6 @@ def show_complex_options():
 
 # USED IN ENCRYPTION AND DECRYPTION METHODS #
 symbols_list = ["$", "@", "%", "!", "*", ".", ","]
-# letters_list = ["/s", "/a", "/p", "/e", "/t", "/q", "/c"]
 
 
 def symbol_to_letters(letter):
@@ -174,6 +173,14 @@ def letters_to_symbols(letter):
         return ','
 
 
+def update_caesar_box(text):
+    # Display text
+    entry_caesar.config(state=tk.NORMAL)
+    entry_caesar.delete(0, tk.END)
+    entry_caesar.insert(tk.END, text)
+    entry_caesar.config(state=tk.DISABLED)
+
+
 # Convert key into numbers
 def letters_to_numbers(complex_key):
     # List will hold each letter value
@@ -209,10 +216,7 @@ def simple_caesar_encryption():
             ciphertext += chr((ord(letter) + simple_key - 97) % 26 + 97)
 
     # Display encrypted text
-    entry_caesar.config(state=tk.NORMAL)
-    entry_caesar.delete(0, tk.END)
-    entry_caesar.insert(tk.END, ciphertext)
-    entry_caesar.config(state=tk.DISABLED)
+    update_caesar_box(ciphertext)
 
 
 # Simple caesar decryption
@@ -245,10 +249,7 @@ def simple_caesar_decryption():
             plaintext += chr((ord(letter) - simple_key - 97) % 26 + 97)
 
     # Display plain text
-    entry_caesar.config(state=tk.NORMAL)
-    entry_caesar.delete(0, tk.END)
-    entry_caesar.insert(tk.END, plaintext)
-    entry_caesar.config(state=tk.DISABLED)
+    update_caesar_box(plaintext)
 
 
 # COMPLEX ENCRYPTION METHODS #
@@ -292,10 +293,7 @@ def complex_caesar_encryption():
                 ciphertext += chr((ord(letter) + int(key) - 97) % 26 + 97)
 
     # Display encrypted text
-    entry_caesar.config(state=tk.NORMAL)
-    entry_caesar.delete(0, tk.END)
-    entry_caesar.insert(tk.END, ciphertext)
-    entry_caesar.config(state=tk.DISABLED)
+    update_caesar_box(ciphertext)
 
 
 # Complex caesar decryption
@@ -347,10 +345,7 @@ def complex_caesar_decryption():
                 plaintext += chr((ord(letter) - int(key) - 97) % 26 + 97)
 
     # Display plain text
-    entry_caesar.config(state=tk.NORMAL)
-    entry_caesar.delete(0, tk.END)
-    entry_caesar.insert(tk.END, plaintext)
-    entry_caesar.config(state=tk.DISABLED)
+    update_caesar_box(plaintext)
 
 
 # LOOP GUI WINDOW #
