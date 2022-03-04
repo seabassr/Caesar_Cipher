@@ -204,8 +204,8 @@ def simple_caesar_encryption():
 
     # Loop through plain text, and go forwards base on key
     for i in range(len(plaintext)):
-        letter = plaintext[i]
-        letter = letter.lower()
+        letter_original = plaintext[i]
+        letter = letter_original.lower()
 
         # If space detected, add space, else encrypt
         if letter == " ":
@@ -213,7 +213,12 @@ def simple_caesar_encryption():
         elif any(symbols in letter for symbols in symbols_list):
             ciphertext += symbol_to_letters(letter)
         elif letter.isalpha():
-            ciphertext += chr((ord(letter) + simple_key - 97) % 26 + 97)
+            letter_new = chr((ord(letter) + simple_key - 97) % 26 + 97)
+
+            if letter_original.isupper():
+                ciphertext += letter_new.upper()
+            else:
+                ciphertext += letter_new
 
     # Display encrypted text
     update_caesar_box(ciphertext)
@@ -230,8 +235,8 @@ def simple_caesar_decryption():
 
     # Loop through encrypted text, and go backwards base on key
     for i in range(len(ciphertext)):
-        letter = ciphertext[i]
-        letter = letter.lower()
+        letter_original = ciphertext[i]
+        letter = letter_original.lower()
 
         if skip == i:
             # If used as symbol, skip
@@ -246,7 +251,12 @@ def simple_caesar_decryption():
             letter = letter.lower()
             plaintext += letters_to_symbols(letter)
         elif letter.isalpha():
-            plaintext += chr((ord(letter) - simple_key - 97) % 26 + 97)
+            letter_new = chr((ord(letter) - simple_key - 97) % 26 + 97)
+
+            if letter_original.isupper():
+                plaintext += letter_new.upper()
+            else:
+                plaintext += letter_new
 
     # Display plain text
     update_caesar_box(plaintext)
@@ -273,8 +283,8 @@ def complex_caesar_encryption():
 
         # Loop through plain text, and go forwards base on key
         for i in range(len(plaintext)):
-            letter = plaintext[i]
-            letter = letter.lower()
+            letter_original = plaintext[i]
+            letter = letter_original.lower()
 
             if letter == " ":
                 # If space detected, add space, else encrypt
@@ -290,7 +300,12 @@ def complex_caesar_encryption():
                     key_position = 1
                     key = key_list[0]
 
-                ciphertext += chr((ord(letter) + int(key) - 97) % 26 + 97)
+                letter_new = chr((ord(letter) + int(key) - 97) % 26 + 97)
+
+                if letter_original.isupper():
+                    ciphertext += letter_new.upper()
+                else:
+                    ciphertext += letter_new
 
     # Display encrypted text
     update_caesar_box(ciphertext)
@@ -318,8 +333,8 @@ def complex_caesar_decryption():
 
         # Loop through encrypted text, and go backwards base on key
         for i in range(len(ciphertext)):
-            letter = ciphertext[i]
-            letter = letter.lower()
+            letter_original = ciphertext[i]
+            letter = letter_original.lower()
 
             if skip == i:
                 # If used as symbol, skip
@@ -342,7 +357,12 @@ def complex_caesar_decryption():
                     key_position = 1
                     key = key_list[0]
 
-                plaintext += chr((ord(letter) - int(key) - 97) % 26 + 97)
+                letter_new = chr((ord(letter) - int(key) - 97) % 26 + 97)
+
+                if letter_original.isupper():
+                    plaintext += letter_new.upper()
+                else:
+                    plaintext += letter_new
 
     # Display plain text
     update_caesar_box(plaintext)
