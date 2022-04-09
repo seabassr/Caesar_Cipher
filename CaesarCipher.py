@@ -188,7 +188,16 @@ def simple_caesar_encryption():
 
         # If symbol detected, add secret word, else encrypt
         if any(symbols in letter for symbols in symbols_list):
-            ciphertext += symbol_to_letters(letter)
+            secret = symbol_to_letters(letter)
+
+            # Encrypt secret word, besides "."
+            for index in secret:
+                if index == ".":
+                    ciphertext += index
+                else:
+                    letter_new = chr((ord(index) + simple_key - 97) % 26 + 97)
+                    ciphertext += letter_new
+
         elif letter.isalpha():
             letter_new = chr((ord(letter) + simple_key - 97) % 26 + 97)
 
@@ -224,7 +233,7 @@ def simple_caesar_decryption():
             # Get the rest of the secret string
             for index in range(5):
                 skip.append(int(i + index))
-                letter += ciphertext[i + index]
+                letter += chr((ord(ciphertext[i + index]) - simple_key - 97) % 26 + 97)
 
             # Add symbol to plaintext
             letter = letter.lower()
