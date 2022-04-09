@@ -135,7 +135,7 @@ def show_complex_options():
 
 # USED IN ENCRYPTION AND DECRYPTION METHODS #
 symbols_list = [" ", "$", "@", "%", "!", "*", ".", ","]
-symbols_encrypt = [".smvvl", ".ddytb", ".wqwgj", ".vcvdk", ".bjkgl", ".nlcmr", ".yrtgl", ".tqwsl"]
+symbols_encrypt = ["/smvvl", "/ddytb", "/wqwgj", "/vcvdk", "/bjkgl", "/nlcmr", "/yrtgl", "/tqwsl"]
 
 
 # Add special text to ciphertext
@@ -192,7 +192,7 @@ def simple_caesar_encryption():
 
             # Encrypt secret word, besides "."
             for index in secret:
-                if index == ".":
+                if index == "/":
                     ciphertext += index
                 else:
                     letter_new = chr((ord(index) + simple_key - 97) % 26 + 97)
@@ -226,7 +226,7 @@ def simple_caesar_decryption():
         # If in skip list, skip
         if i in skip:
             continue
-        elif letter == ".":
+        elif letter == "/":
             # Skip "."
             i += 1
 
