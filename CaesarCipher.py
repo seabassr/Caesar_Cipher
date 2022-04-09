@@ -134,43 +134,22 @@ def show_complex_options():
 
 
 # USED IN ENCRYPTION AND DECRYPTION METHODS #
-symbols_list = ["$", "@", "%", "!", "*", ".", ","]
+symbols_list = [" ", "$", "@", "%", "!", "*", ".", ","]
+symbols_encrypt = [".smvvl", ".ddytb", ".wqwgj", ".vcvdk", ".bjkgl", ".nlcmr", ".yrtgl", ".tqwsl"]
 
 
 # Add special text to ciphertext
 def symbol_to_letters(letter):
-    if letter == "$":
-        return '/s'
-    elif letter == "@":
-        return '/a'
-    elif letter == "%":
-        return '/p'
-    elif letter == "!":
-        return '/e'
-    elif letter == "*":
-        return '/t'
-    elif letter == ".":
-        return '/q'
-    elif letter == ",":
-        return '/c'
+    for index in range(len(symbols_list)):
+        if letter == symbols_list[index]:
+            return symbols_encrypt[index]
 
 
 # Add symbol to plaintext
 def letters_to_symbols(letter):
-    if letter == "s":
-        return '$'
-    elif letter == "a":
-        return '@'
-    elif letter == "p":
-        return '%'
-    elif letter == "e":
-        return '!'
-    elif letter == "t":
-        return '*'
-    elif letter == "q":
-        return '.'
-    elif letter == "c":
-        return ','
+    for index in range(len(symbols_encrypt)):
+        if letter == symbols_encrypt[index]:
+            return symbols_list[index]
 
 
 # Display text
@@ -207,10 +186,8 @@ def simple_caesar_encryption():
         letter_original = plaintext[i]
         letter = letter_original.lower()
 
-        # If space detected, add space, else encrypt
-        if letter == " ":
-            ciphertext += ' '
-        elif any(symbols in letter for symbols in symbols_list):
+        # If symbol detected, add secret word, else encrypt
+        if any(symbols in letter for symbols in symbols_list):
             ciphertext += symbol_to_letters(letter)
         elif letter.isalpha():
             letter_new = chr((ord(letter) + simple_key - 97) % 26 + 97)
@@ -230,24 +207,26 @@ def simple_caesar_decryption():
     global simple_key
     ciphertext = entry_plain.get()
     plaintext = ""
-    # If there isn't any symbols
-    skip = -1
+    skip = []
 
     # Loop through encrypted text, and go backwards base on key
     for i in range(len(ciphertext)):
         letter_original = ciphertext[i]
         letter = letter_original.lower()
 
-        if skip == i:
-            # If used as symbol, skip
+        # If in skip list, skip
+        if i in skip:
             continue
-        elif letter == " ":
-            # If space detected, add space, else decrypt
-            plaintext += ' '
-        elif letter == "/":
-            # Add symbol to plaintext, skip the next letter
-            skip = i + 1
-            letter = ciphertext[skip]
+        elif letter == ".":
+            # Skip "."
+            i += 1
+
+            # Get the rest of the secret string
+            for index in range(5):
+                skip.append(int(i + index))
+                letter += ciphertext[i + index]
+
+            # Add symbol to plaintext
             letter = letter.lower()
             plaintext += letters_to_symbols(letter)
         elif letter.isalpha():
