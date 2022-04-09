@@ -216,6 +216,7 @@ def simple_caesar_decryption():
     global simple_key
     ciphertext = entry_plain.get()
     plaintext = ""
+    # Skip secret symbols
     skip = []
 
     # Loop through encrypted text, and go backwards base on key
@@ -274,11 +275,26 @@ def complex_caesar_encryption():
             letter_original = plaintext[i]
             letter = letter_original.lower()
 
-            if letter == " ":
-                # If space detected, add space, else encrypt
-                ciphertext += ' '
-            elif any(symbols in letter for symbols in symbols_list):
-                ciphertext += symbol_to_letters(letter)
+            # If symbol detected, add secret word, else encrypt
+            if any(symbols in letter for symbols in symbols_list):
+                secret = symbol_to_letters(letter)
+
+                # Encrypt secret word, besides "."
+                for index in secret:
+                    if index == "/":
+                        ciphertext += index
+                    else:
+                        # Loop numbers in key, if smaller than plain text
+                        if key_position < key_length:
+                            key = key_list[key_position]
+                            key_position += 1
+                        else:
+                            key_position = 1
+                            key = key_list[0]
+
+                        letter_new = chr((ord(index) + int(key) - 97) % 26 + 97)
+                        ciphertext += letter_new
+
             elif letter.isalpha():
                 # Loop numbers in key, if smaller than plain text
                 if key_position < key_length:
@@ -316,24 +332,36 @@ def complex_caesar_decryption():
         key_list = letters_to_numbers(complex_key)
         key_length = len(key_list)
         key_position = 0
-        # If there isn't any symbols
-        skip = -1
+        # Skip secret symbols
+        skip = []
 
         # Loop through encrypted text, and go backwards base on key
         for i in range(len(ciphertext)):
             letter_original = ciphertext[i]
             letter = letter_original.lower()
 
-            if skip == i:
-                # If used as symbol, skip
+            # If in skip list, skip
+            if i in skip:
                 continue
-            elif letter == " ":
-                # If space detected, add space, else decrypt
-                plaintext += ' '
             elif letter == "/":
-                # Add symbol to plaintext, skip the next letter
-                skip = i + 1
-                letter = ciphertext[skip]
+                # Skip "."
+                i += 1
+
+                # Get the rest of the secret string
+                for index in range(5):
+                    skip.append(int(i + index))
+
+                    # Loop numbers in key, if smaller than encrypted text
+                    if key_position < key_length:
+                        key = key_list[key_position]
+                        key_position += 1
+                    else:
+                        key_position = 1
+                        key = key_list[0]
+
+                    letter += chr((ord(ciphertext[i + index]) - int(key) - 97) % 26 + 97)
+
+                # Add symbol to plaintext
                 letter = letter.lower()
                 plaintext += letters_to_symbols(letter)
             elif letter.isalpha():
