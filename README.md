@@ -7,6 +7,8 @@ message in the plaintext field. Then select simple for basic shifting or complex
 encryption. Simple encryption requires you to select the number for the shift, and press encrypt, to shift forward<br /> plain text, or decrypt, to shift back the encrypted text. Complex encryption requires a word/sentence, which will<br />
 turn each letter into values, and used to determine far forward/back to shift each letter.
 
+![GUI Interface](/GUI.png)
+
 ## Requirements
 -Python 3
 
