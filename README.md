@@ -10,7 +10,7 @@ turn each letter into values, and used to determine far forward/back to shift ea
 <img src="/Demo/GUI.png" width="500" height="370">
 
 ## Requirements
--Python 3
+- Python 3
 
 ## Run caesar cipher
 ```
