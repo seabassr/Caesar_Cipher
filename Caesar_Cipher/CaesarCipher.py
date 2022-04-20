@@ -173,6 +173,18 @@ def letters_to_numbers(complex_key):
     return convert
 
 
+# Shift letters forward
+def encrypt(letter, key):
+    letter = chr((ord(letter) + int(key) - 97) % 26 + 97)
+    return letter
+
+
+# Shift letters backward
+def decrypt(letter, key):
+    letter = chr((ord(letter) - int(key) - 97) % 26 + 97)
+    return letter
+
+
 # SIMPLE ENCRYPTION METHODS #
 # Simple caesar encryption
 def simple_caesar_encryption():
@@ -190,21 +202,18 @@ def simple_caesar_encryption():
         if any(symbols in letter for symbols in symbols_list):
             secret = symbol_to_letters(letter)
 
-            # Encrypt secret word, besides "."
+            # Encrypt secret word, besides "/"
             for index in secret:
                 if index == "/":
                     ciphertext += index
                 else:
-                    letter_new = chr((ord(index) + simple_key - 97) % 26 + 97)
-                    ciphertext += letter_new
+                    ciphertext += encrypt(index, simple_key)
 
         elif letter.isalpha():
-            letter_new = chr((ord(letter) + simple_key - 97) % 26 + 97)
-
             if letter_original.isupper():
-                ciphertext += letter_new.upper()
+                ciphertext += encrypt(letter, simple_key).upper()
             else:
-                ciphertext += letter_new
+                ciphertext += encrypt(letter, simple_key)
 
     # Display encrypted text
     update_caesar_box(ciphertext)
@@ -228,24 +237,21 @@ def simple_caesar_decryption():
         if i in skip:
             continue
         elif letter == "/":
-            # Skip "."
+            # Skip "/"
             i += 1
 
             # Get the rest of the secret string
             for index in range(5):
                 skip.append(int(i + index))
-                letter += chr((ord(ciphertext[i + index]) - simple_key - 97) % 26 + 97)
+                letter += decrypt(ciphertext[i + index], simple_key)
 
             # Add symbol to plaintext
-            letter = letter.lower()
             plaintext += letters_to_symbols(letter)
         elif letter.isalpha():
-            letter_new = chr((ord(letter) - simple_key - 97) % 26 + 97)
-
             if letter_original.isupper():
-                plaintext += letter_new.upper()
+                plaintext += decrypt(letter, simple_key).upper()
             else:
-                plaintext += letter_new
+                plaintext += decrypt(letter, simple_key)
 
     # Display plain text
     update_caesar_box(plaintext)
@@ -292,8 +298,7 @@ def complex_caesar_encryption():
                             key_position = 1
                             key = key_list[0]
 
-                        letter_new = chr((ord(index) + int(key) - 97) % 26 + 97)
-                        ciphertext += letter_new
+                        ciphertext += encrypt(index, key)
 
             elif letter.isalpha():
                 # Loop numbers in key, if smaller than plain text
@@ -304,12 +309,10 @@ def complex_caesar_encryption():
                     key_position = 1
                     key = key_list[0]
 
-                letter_new = chr((ord(letter) + int(key) - 97) % 26 + 97)
-
                 if letter_original.isupper():
-                    ciphertext += letter_new.upper()
+                    ciphertext += encrypt(letter, key).upper()
                 else:
-                    ciphertext += letter_new
+                    ciphertext += encrypt(letter, key)
 
     # Display encrypted text
     update_caesar_box(ciphertext)
@@ -359,10 +362,9 @@ def complex_caesar_decryption():
                         key_position = 1
                         key = key_list[0]
 
-                    letter += chr((ord(ciphertext[i + index]) - int(key) - 97) % 26 + 97)
+                    letter += decrypt(ciphertext[i + index], key)
 
                 # Add symbol to plaintext
-                letter = letter.lower()
                 plaintext += letters_to_symbols(letter)
             elif letter.isalpha():
                 # Loop numbers in key, if smaller than encrypted text
@@ -373,12 +375,10 @@ def complex_caesar_decryption():
                     key_position = 1
                     key = key_list[0]
 
-                letter_new = chr((ord(letter) - int(key) - 97) % 26 + 97)
-
                 if letter_original.isupper():
-                    plaintext += letter_new.upper()
+                    plaintext += decrypt(letter, key).upper()
                 else:
-                    plaintext += letter_new
+                    plaintext += decrypt(letter, key)
 
     # Display plain text
     update_caesar_box(plaintext)
