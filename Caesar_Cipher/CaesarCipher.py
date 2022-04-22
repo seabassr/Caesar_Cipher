@@ -271,8 +271,17 @@ def complex_caesar_encryption():
         # Remove spaces and lowercase everything in key
         complex_key = complex_key.replace(" ", "")
         complex_key = complex_key.lower()
-        # Convert letters to number, get length of list
+
+        # Convert letters to number
         key_list = letters_to_numbers(complex_key)
+        new_key = ""
+
+        # Encrypt key
+        for j in range(len(complex_key)):
+            new_key += encrypt(complex_key[j], key_list[j])
+
+        # Convert letters to number, get length of list
+        key_list = letters_to_numbers(new_key)
         key_length = len(key_list)
         key_position = 0
 
@@ -331,8 +340,17 @@ def complex_caesar_decryption():
         # Remove spaces and lowercase everything in key
         complex_key = complex_key.replace(" ", "")
         complex_key = complex_key.lower()
-        # Convert letters to number, get length of list
+
+        # Convert letters to number
         key_list = letters_to_numbers(complex_key)
+        new_key = ""
+
+        # Encrypt key
+        for j in range(len(complex_key)):
+            new_key += encrypt(complex_key[j], key_list[j])
+
+        # Convert letters to number, get length of list
+        key_list = letters_to_numbers(new_key)
         key_length = len(key_list)
         key_position = 0
         # Skip secret symbols
@@ -347,7 +365,7 @@ def complex_caesar_decryption():
             if i in skip:
                 continue
             elif letter == "/":
-                # Skip "."
+                # Skip "/"
                 i += 1
 
                 # Get the rest of the secret string
