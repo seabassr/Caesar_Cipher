@@ -132,11 +132,14 @@ def show_complex_options():
     complex_options_block.pack(side=tk.BOTTOM, padx=(15, 15), pady=(10, 15))
     complex_button_block.pack(side=tk.BOTTOM)
 
-
+# b c d f g
+# h j k l m
+# n p q r s
+# t v w x y
+# z
 # USED IN ENCRYPTION AND DECRYPTION METHODS #
-symbols_list = [" ", "$", "@", "%", "!", "*", ".", ","]
-symbols_encrypt = ["/smvvl", "/ddytb", "/wqwgj", "/vcvdk", "/bjkgl", "/nlcmr", "/yrtgl", "/tqwsl"]
-
+symbols_list = [" ", "$", "@", "%", "!", "*", ".", ",", "#", "|", "^", "&", "-", "_", "(", ")", "[", "]", "{", "}", ";", ":", "<", ">", "?", ".", "~"]
+symbols_encrypt = ["/bdgbc", "/hkmdf", "/nqsgh", "/twyjk", "/zcflm", "/jlpnp", "/rvxqr", "/bdgst", "/hkmvw", "/nqsxy", "/twyzb", "/zcfcd", "/jlpfg", "/rvxhj", "/bdgkl", "/hkmmn", "/nqspq", "/twyrs", "/zcftv", "/jlpwx", "/rvxyz", "/bdgbd", "/hkmgj", "/nqsln", "/twyqs", "/zcfvx", "/jlpzc"]
 
 # Add special text to ciphertext
 def symbol_to_letters(letter):
