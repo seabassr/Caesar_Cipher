@@ -14,5 +14,6 @@ turn each letter into values, and used to determine far forward/back to shift ea
 
 ## Run caesar cipher
 ```
-python3 CaesarCipher.py
+cd Caesar_Cipher
+python3 Main.py
 ```
