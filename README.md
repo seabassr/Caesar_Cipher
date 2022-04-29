@@ -10,7 +10,8 @@ turn each letter into values, and used to determine far forward/back to shift ea
 <img src="/Demo/GUI.png" width="500" height="370">
 
 ## Demo
-![DEMO](/Demo/Demo.mov)
+![DEMO]()
+[![Demo](/Demo/Demo.mov)](/Demo/Demo.mov)
 
 ## Requirements
 - Python 3
