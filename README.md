@@ -11,6 +11,5 @@ This python script will display a basic GUI interface. CaesarCipher.py will requ
 
 ## Run caesar cipher
 ```
-cd Caesar_Cipher
 python3 Main.py
 ```
